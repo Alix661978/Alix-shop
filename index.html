@@ -87,13 +87,19 @@
         <div id="products" class="page-content py-20">
              <div class="container mx-auto px-6">
                 <h3 class="text-4xl font-bold text-center mb-12">منتجاتنا المميزة</h3>
-                <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+                <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"></div>
+                <div class="text-center mt-16">
+                    <button data-page="home" class="btn-secondary font-bold py-2 px-6 rounded-lg text-base">العودة للصفحة الرئيسية</button>
+                </div>
             </div>
         </div>
         <div id="about" class="page-content py-20 bg-gray-900/30">
             <div class="container mx-auto px-6 text-center">
                 <h3 class="text-4xl font-bold mb-6">عن متجر المعرفة</h3>
                 <p class="text-xl max-w-4xl mx-auto leading-relaxed">نؤمن في "متجر المعرفة" بأن الفضول هو شرارة الإبداع. كل منتج في متجرنا مصمم ليكون أكثر من مجرد غرض، بل هو أداة لإثارة التساؤل، وتشجيع التعلم، والاحتفاء برحلة الاكتشاف الفكري.</p>
+                <div class="text-center mt-16">
+                    <button data-page="home" class="btn-secondary font-bold py-2 px-6 rounded-lg text-base">العودة للصفحة الرئيسية</button>
+                </div>
             </div>
         </div>
         <div id="contact" class="page-content py-20">
@@ -104,12 +110,18 @@
                     <a href="tel:+966502311308" class="contact-card p-8 rounded-lg text-center flex flex-col items-center"><i data-lucide="phone" class="w-16 h-16 text-sky-400 mb-4"></i><h4 class="text-2xl font-bold mt-2">اتصال</h4><p class="text-lg text-amber-400 mt-1" dir="ltr">+966 50 231 1308</p></a>
                     <a href="mailto:maarifastore@gmail.com" class="contact-card p-8 rounded-lg text-center flex flex-col items-center"><i data-lucide="mail" class="w-16 h-16 text-red-400 mb-4"></i><h4 class="text-2xl font-bold mt-2">البريد الإلكتروني</h4><p class="text-lg text-amber-400 mt-1 break-all">maarifastore@gmail.com</p></a>
                 </div>
+                 <div class="text-center mt-16">
+                    <button data-page="home" class="btn-secondary font-bold py-2 px-6 rounded-lg text-base">العودة للصفحة الرئيسية</button>
+                </div>
             </div>
         </div>
         <div id="checkout" class="page-content py-20">
             <div class="container mx-auto px-6">
                 <h3 class="text-4xl font-bold text-center mb-12">إتمام عملية الشراء</h3>
                 <p class="text-center text-xl">هذه الصفحة قيد الإنشاء.</p>
+                 <div class="text-center mt-16">
+                    <button data-page="home" class="btn-secondary font-bold py-2 px-6 rounded-lg text-base">العودة للصفحة الرئيسية</button>
+                </div>
             </div>
         </div>
 
@@ -148,7 +160,7 @@
     <footer class="bg-gray-900 text-white">
         <div class="container mx-auto px-6 py-8">
             <div id="auth-container" class="text-center mb-6">
-                 <button id="login-button" class="btn-secondary font-bold py-2 px-4 rounded-lg">تسجيل دخول الأدمن</button>
+                 <button id="login-button" class="border border-gray-400 text-gray-400 hover:bg-white hover:text-gray-900 font-bold text-sm py-1 px-3 rounded-lg transition-colors">تسجيل دخول الأدمن</button>
             </div>
             <div class="text-center text-gray-500"><p>&copy; 2025 متجر المعرفة للمنتجات الرقمية. كل الحقوق محفوظة.</p></div>
         </div>
@@ -256,7 +268,7 @@
                         const product = { id: doc.id, ...doc.data() };
                         const card = document.createElement('div');
                         card.className = 'card rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300';
-                        card.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-56 object-cover"><div class="p-6 flex flex-col flex-grow"><h3 class="font-bold text-xl mb-2 flex-grow">${product.name}</h3><p class="text-gray-400 text-sm mb-4">${product.description}</p><div class="flex justify-between items-center mt-auto"><span class="font-bold text-2xl text-amber-400">${product.price} ر.س</span><button class="btn-secondary font-bold py-2 px-4 rounded-lg add-to-cart-btn">أضف للسلة</button></div></div>`;
+                        card.innerHTML = `<img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover"><div class="p-4 flex flex-col flex-grow"><h3 class="font-bold text-lg mb-2 flex-grow">${product.name}</h3><p class="text-gray-400 text-sm mb-4">${product.description}</p><div class="flex justify-between items-center mt-auto"><span class="font-bold text-xl text-amber-400">${product.price} ر.س</span><button class="btn-secondary font-bold py-1 px-3 text-sm rounded-lg add-to-cart-btn">أضف للسلة</button></div></div>`;
                         card.querySelector('.add-to-cart-btn').addEventListener('click', () => addToCart(product));
                         storeProductsGrid.appendChild(card);
                     });
@@ -328,6 +340,7 @@
                 cancelEditButton.classList.add('hidden');
             });
 
+            // --- Initializers ---
             lucide.createIcons();
             new Swiper('.swiper-container', { loop: true, autoplay: { delay: 3000 }, effect: 'fade' });
             navLinks.forEach(el => el.addEventListener('click', e => { 
@@ -342,6 +355,7 @@
             cartButton.addEventListener('click', () => cartModal.style.display = 'block');
             closeCartButton.addEventListener('click', () => cartModal.style.display = 'none');
             
+            // Initial Load
             updateCartUI();
             renderStoreProducts();
             renderAdminProducts();
