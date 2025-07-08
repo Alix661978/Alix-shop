@@ -189,7 +189,6 @@
             const googleProvider = new firebase.auth.GoogleAuthProvider();
 
             const allPages = document.querySelectorAll('.page-content');
-            const navLinks = document.querySelectorAll('[data-page]');
             const cartButton = document.getElementById('cart-button'), cartModal = document.getElementById('cart-modal'), cartItemsContainer = document.getElementById('cart-items-container'), cartTotalEl = document.getElementById('cart-total'), cartCounter = document.getElementById('cart-counter'), checkoutButton = document.getElementById('checkout-button'), closeCartButton = document.getElementById('close-cart-button');
             const mobileMenuButton = document.getElementById('mobile-menu-button'), mobileMenu = document.getElementById('mobile-menu');
             const storeProductsGrid = document.getElementById('products-grid');
@@ -214,15 +213,26 @@
             }
             modalCloseButton.onclick = () => notificationModal.style.display = 'none';
 
-            loginButton.addEventListener('click', () => auth.signInWithPopup(googleProvider));
+            loginButton.addEventListener('click', () => auth.signInWithRedirect(googleProvider));
             logoutButton.addEventListener('click', () => auth.signOut());
+            
+            auth.getRedirectResult()
+                .then((result) => {
+                    if (result.user) {
+                        showNotification(`أهلاً بك مجدداً, ${result.user.displayName}`);
+                    }
+                }).catch((error) => {
+                    console.error("Sign in via redirect error", error);
+                });
 
             auth.onAuthStateChanged(user => {
                 const isAdmin = user && user.uid === ADMIN_UID;
                 loginButton.style.display = user ? 'none' : 'block';
                 adminNavLink.style.display = isAdmin ? 'block' : 'none';
                 adminNavLinkMobile.style.display = isAdmin ? 'block' : 'none';
-                if (!isAdmin && document.getElementById('admin').style.display === 'block') showPage('home');
+                if (!isAdmin && document.getElementById('admin').style.display === 'block') {
+                    showPage('home');
+                }
             });
 
             function updateCartUI() {
@@ -343,15 +353,32 @@
             // --- Initializers ---
             lucide.createIcons();
             new Swiper('.swiper-container', { loop: true, autoplay: { delay: 3000 }, effect: 'fade' });
-            navLinks.forEach(el => el.addEventListener('click', e => { 
-                e.preventDefault(); 
-                showPage(el.dataset.page); 
-                if (el.classList.contains('nav-link-mobile')) {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenuButton.querySelector('i').setAttribute('data-lucide', 'menu');
-                    lucide.createIcons();
+            
+            document.body.addEventListener('click', (e) => {
+                const link = e.target.closest('[data-page]');
+                if (link) {
+                    e.preventDefault();
+                    const pageId = link.dataset.page;
+                    
+                    if (pageId === 'admin') {
+                        const user = auth.currentUser;
+                        if (user && user.uid === ADMIN_UID) {
+                            showPage('admin');
+                        } else {
+                            showNotification('عفواً، هذه المنطقة مخصصة للمدير فقط. يرجى تسجيل الدخول بحساب الأدمن الصحيح.');
+                        }
+                    } else {
+                        showPage(pageId);
+                    }
+
+                    if (link.classList.contains('nav-link-mobile')) {
+                        mobileMenu.classList.add('hidden');
+                        mobileMenuButton.querySelector('i').setAttribute('data-lucide', 'menu');
+                        lucide.createIcons();
+                    }
                 }
-            }));
+            });
+
             cartButton.addEventListener('click', () => cartModal.style.display = 'block');
             closeCartButton.addEventListener('click', () => cartModal.style.display = 'none');
             
