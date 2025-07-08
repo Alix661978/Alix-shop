@@ -212,19 +212,20 @@
                 notificationModal.style.display = 'block';
             }
             modalCloseButton.onclick = () => notificationModal.style.display = 'none';
-
-            loginButton.addEventListener('click', () => auth.signInWithRedirect(googleProvider));
+            
+            loginButton.addEventListener('click', () => {
+                if (window.location.protocol.startsWith('http')) {
+                    auth.signInWithPopup(googleProvider)
+                        .catch((error) => {
+                            console.error("Popup sign-in error", error);
+                            showNotification("فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.");
+                        });
+                } else {
+                    showNotification("تسجيل الدخول يعمل فقط على الموقع المنشور (Netlify).");
+                }
+            });
             logoutButton.addEventListener('click', () => auth.signOut());
             
-            auth.getRedirectResult()
-                .then((result) => {
-                    if (result.user) {
-                        showNotification(`أهلاً بك مجدداً, ${result.user.displayName}`);
-                    }
-                }).catch((error) => {
-                    console.error("Sign in via redirect error", error);
-                });
-
             auth.onAuthStateChanged(user => {
                 const isAdmin = user && user.uid === ADMIN_UID;
                 loginButton.style.display = user ? 'none' : 'block';
