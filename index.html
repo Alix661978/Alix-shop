@@ -212,7 +212,7 @@
                 notificationModal.style.display = 'block';
             }
             modalCloseButton.onclick = () => notificationModal.style.display = 'none';
-            
+
             loginButton.addEventListener('click', () => {
                 if (window.location.protocol.startsWith('http')) {
                     auth.signInWithPopup(googleProvider)
