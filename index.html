@@ -66,7 +66,7 @@
     <main>
         <!-- Home Page -->
         <div id="home" class="page-content">
-            <section class="hero-bg text-white">
+             <section class="hero-bg text-white">
                 <div class="container mx-auto px-6 py-24 md:py-32 text-center">
                     <h2 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">بوابتك إلى عالم من الإلهام</h2>
                     <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">منتجات فريدة تشعل فضولك وتضيء أفكارك.</p>
@@ -224,7 +224,7 @@
                 if (!pageId || !document.getElementById(pageId)) return;
                 allPages.forEach(p => p.style.display = 'none');
                 document.getElementById(pageId).style.display = 'block';
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+                document.querySelectorAll('.nav-link, .nav-link-mobile').forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
             }
 
             function showNotification(message) {
@@ -417,3 +417,4 @@
     </script>
 </body>
 </html>
+
